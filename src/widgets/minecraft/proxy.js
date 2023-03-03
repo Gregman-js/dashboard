@@ -15,14 +15,16 @@ export default async function minecraftProxyHandler(req, res) {
         res.status(200).send({
             version: pingResponse.version.name,
             online: true,
-            players: pingResponse.players
+            players: pingResponse.players,
+            ping: pingResponse.ping
         });
     } catch (e) {
         logger.error(e);
         res.status(200).send({
             version: undefined,
             online: false,
-            players: undefined
+            players: undefined,
+            ping: undefined,
         });
     }
 }

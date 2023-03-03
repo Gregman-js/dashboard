@@ -1,6 +1,9 @@
 import classNames from "classnames";
 
+import customs from "./customs";
+
 import Item from "components/services/item";
+
 
 const columnMap = [
   "grid-cols-1 md:grid-cols-1 lg:grid-cols-1",
@@ -22,9 +25,15 @@ export default function List({ services, layout }) {
         "mt-3"
       )}
     >
-      {services.map((service) => (
-        <Item key={service.name} service={service} />
-      ))}
+      {services.map((service) => {
+        const ServiceType = customs[service.custom];
+
+        if (ServiceType) {
+          return <ServiceType key={service.name} service={service} />;
+        }
+
+        return <Item key={service.name} service={service} />;
+      })}
     </ul>
   );
 }
