@@ -6,7 +6,7 @@ export default async function handler(req, res) {
 
   const settings = getSettings();
 
-  const token = settings.systemd.base64;
+  const {url, base64: token} = settings.systemd;
 
   if (!serviceName || !serviceAction || !token) {
     return res.status(400).send({
@@ -16,7 +16,7 @@ export default async function handler(req, res) {
   }
 
   const mcResponse = await fetch(
-    `http://zlomek.local:10070/api/v1/${serviceName}/${serviceAction}`,
+    `${url}/api/v1/${serviceName}/${serviceAction}`,
     {
       method: 'GET',
       headers: new Headers({

@@ -37,13 +37,13 @@ export default function Minecraft({ service }) {
     }
 
     const action = mcData.online ? 'stop' : 'start';
-    // const action = 'status';
+    mcData.online = action === 'start';
 
-    fetch(`/api/systemd/mc/${action}`)
+    fetch(`/api/systemd/${service.systemd}/${action}`)
       .then(r => r.json())
       .then(response => {
         if (response.status) {
-          mcData.online = true;
+          mcData.online = action === 'start';
         }
     });
   };
