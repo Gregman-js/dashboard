@@ -1,10 +1,6 @@
 import { pingWithPromise } from "minecraft-ping-js";
 
-import createLogger from "utils/logger";
 import getServiceWidget from "utils/config/service-helpers";
-
-const proxyName = "minecraftProxyHandler";
-const logger = createLogger(proxyName);
 
 export default async function minecraftProxyHandler(req, res) {
     const { group, service } = req.query;
@@ -19,7 +15,6 @@ export default async function minecraftProxyHandler(req, res) {
             ping: pingResponse.ping
         });
     } catch (e) {
-        logger.error(e);
         res.status(200).send({
             version: undefined,
             online: false,
