@@ -50,6 +50,7 @@ const components = {
   mealie: dynamic(() => import("./mealie/component")),
   medusa: dynamic(() => import("./medusa/component")),
   minecraft: dynamic(() => import("./minecraft/component")),
+  craftyminecraft: dynamic(() => import("./craftyminecraft/component")),
   miniflux: dynamic(() => import("./miniflux/component")),
   mikrotik: dynamic(() => import("./mikrotik/component")),
   mjpeg: dynamic(() => import("./mjpeg/component")),

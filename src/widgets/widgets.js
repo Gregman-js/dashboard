@@ -42,6 +42,7 @@ import mastodon from "./mastodon/widget";
 import mealie from "./mealie/widget";
 import medusa from "./medusa/widget";
 import minecraft from "./minecraft/widget";
+import craftyminecraft from "./craftyminecraft/widget";
 import miniflux from "./miniflux/widget";
 import mikrotik from "./mikrotik/widget";
 import mjpeg from "./mjpeg/widget";
@@ -144,6 +145,7 @@ const widgets = {
   mealie,
   medusa,
   minecraft,
+  craftyminecraft,
   miniflux,
   mikrotik,
   mjpeg,

@@ -42,6 +42,10 @@ LABEL org.opencontainers.image.source='https://github.com/gethomepage/homepage'
 LABEL org.opencontainers.image.licenses='Apache-2.0'
 
 ENV NODE_ENV production
+# mkdir /usr/local/share/ca-certificates/ in docker
+RUN mkdir /usr/local/share/ca-certificates/
+COPY --link cert/cert.pem /usr/local/share/ca-certificates/crafty.pem
+ENV NODE_EXTRA_CA_CERTS /usr/local/share/ca-certificates/crafty.pem
 
 WORKDIR /app
 
