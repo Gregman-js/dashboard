@@ -3,8 +3,22 @@ services:
   homepage:
     build: .
     container_name: homepage
+    restart: unless-stopped
     ports:
-      - "127.0.0.1:3000:3000"
+      - "80:3000"
     volumes:
       - ./config:/app/config
       - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+      - default
+      - net
+      - tunnel_cloudflare
+#      - nginx-proxy-manager_proxy
+
+networks:
+  net:
+    driver: bridge
+  tunnel_cloudflare:
+    external: true
+  nginx-proxy-manager_proxy:
+    external: true

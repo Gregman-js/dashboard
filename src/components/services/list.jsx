@@ -6,7 +6,7 @@ import customs from "./customs";
 
 import Item from "components/services/item";
 
-export default function List({ group, services, layout }) {
+export default function List({ group, services, layout, useEqualHeights }) {
   return (
     <ul
       className={classNames(
@@ -21,7 +21,12 @@ export default function List({ group, services, layout }) {
           return <ServiceType key={service.name} service={service} group={group}/>;
         }
 
-        return <Item key={service.container ?? service.app ?? service.name} service={service} group={group}/>
+        return <Item
+          key={[service.container, service.app, service.name].filter((s) => s).join("-")}
+          service={service}
+          group={group}
+          useEqualHeights={layout?.useEqualHeights ?? useEqualHeights}
+        />
       })}
     </ul>
   );

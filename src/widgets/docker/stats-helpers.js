@@ -16,3 +16,18 @@ export function calculateUsedMemory(stats) {
     stats.memory_stats.usage - (stats.memory_stats.total_inactive_file ?? stats.memory_stats.stats?.inactive_file ?? 0)
   );
 }
+
+export function calculateThroughput(stats) {
+  let rxBytes = 0;
+  let txBytes = 0;
+  if (stats.networks?.network) {
+    rxBytes = stats.networks?.network.rx_bytes;
+    txBytes = stats.networks?.network.tx_bytes;
+  } else if (stats.networks && Array.isArray(Object.values(stats.networks))) {
+    Object.values(stats.networks).forEach((containerInterface) => {
+      rxBytes += containerInterface.rx_bytes;
+      txBytes += containerInterface.tx_bytes;
+    });
+  }
+  return { rxBytes, txBytes };
+}

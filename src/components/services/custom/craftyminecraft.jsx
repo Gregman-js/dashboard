@@ -13,9 +13,18 @@ export default function Craftyminecraft({ service }) {
   const { data: mcData, error: mcError } = useWidgetAPI(service.widget, "stats");
   const { settings } = useContext(SettingsContext);
   const [live, setLive] = useState(false);
+  const [block, setBlock] = useState(null);
 
-  if ((!mcError && mcData && mcData.data.running) !== live) {
-    setLive(!mcError && mcData && mcData.data.running);
+  const isOn = (!mcError && mcData && mcData.data.running);
+
+  if (
+    isOn !== live
+    && (
+      null === block
+      || isOn === block
+    )
+  ) {
+    setLive(isOn);
   }
 
   const toggleServer = () => {
@@ -38,6 +47,7 @@ export default function Craftyminecraft({ service }) {
       .then(r => r.json())
       .then(response => {
         if (response.status) {
+          setBlock(action === 'start_server');
           setLive(action === 'start_server');
         }
       });

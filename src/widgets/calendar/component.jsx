@@ -40,7 +40,9 @@ export default function Component({ service }) {
   const { widget } = service;
   const { i18n } = useTranslation();
   const [showDate, setShowDate] = useState(null);
-  const currentDate = DateTime.now().setLocale(i18n.language).startOf("day");
+  const [events, setEvents] = useState({});
+  const nowDate = DateTime.now().setLocale(i18n.language);
+  const currentDate = widget?.timezone ? nowDate.setZone(widget?.timezone).startOf("day") : nowDate;
   const { settings } = useContext(SettingsContext);
 
   useEffect(() => {
@@ -51,15 +53,18 @@ export default function Component({ service }) {
 
   // params for API fetch
   const params = useMemo(() => {
-    if (!showDate) {
-      return {};
+    const constructedParams = {
+      start: "",
+      end: "",
+      unmonitored: false,
+    };
+
+    if (showDate) {
+      constructedParams.start = showDate.minus({ months: 3 }).toFormat("yyyy-MM-dd");
+      constructedParams.end = showDate.plus({ months: 3 }).toFormat("yyyy-MM-dd");
     }
 
-    return {
-      start: showDate.minus({ months: 3 }).toFormat("yyyy-MM-dd"),
-      end: showDate.plus({ months: 3 }).toFormat("yyyy-MM-dd"),
-      unmonitored: "false",
-    };
+    return constructedParams;
   }, [showDate]);
 
   // Load active integrations
@@ -69,9 +74,9 @@ export default function Component({ service }) {
         ?.filter((integration) => integration?.type)
         .map((integration) => ({
           service: dynamic(() => import(`./integrations/${integration.type}`)),
-          widget: integration,
+          widget: { ...widget, ...integration },
         })) ?? [],
-    [widget.integrations],
+    [widget],
   );
 
   return (
@@ -80,14 +85,16 @@ export default function Component({ service }) {
         <div className="sticky top-0">
           {integrations.map((integration) => {
             const Integration = integration.service;
-            const key = integration.widget.type + integration.widget.service_name + integration.widget.service_group;
+            const key = `integration-${integration.widget.type}-${integration.widget.service_name}-${integration.widget.service_group}-${integration.widget.name}`;
 
             return (
               <Integration
                 key={key}
                 config={integration.widget}
                 params={params}
+                setEvents={setEvents}
                 hideErrors={settings.hideErrors}
+                timezone={widget?.timezone}
                 className="fixed bottom-0 left-0 bg-red-500 w-screen h-12"
               />
             );
@@ -95,17 +102,22 @@ export default function Component({ service }) {
         </div>
         {(!widget?.view || widget?.view === "monthly") && (
           <Monthly
+            key={`monthly-${showDate?.toFormat("yyyy-MM-dd")}`}
             service={service}
             colorVariants={colorVariants}
+            events={events}
             showDate={showDate}
             setShowDate={setShowDate}
+            currentDate={currentDate}
             className="flex"
           />
         )}
         {widget?.view === "agenda" && (
           <Agenda
+            key={`agenda-${showDate?.toFormat("yyyy-MM-dd")}`}
             service={service}
             colorVariants={colorVariants}
+            events={events}
             showDate={showDate}
             setShowDate={setShowDate}
             className="flex"
