@@ -382,8 +382,10 @@
         "players": "Gracze",
         "version": "Wersja",
         "status": "Stan",
-        "up": "Dostępny",
-        "down": "Nieosiągalny"
+        "up": "Online",
+        "down": "Offline",
+        "port": "Port",
+        "ram": "Pamięć"
     },
     "miniflux": {
         "read": "Przeczytane",

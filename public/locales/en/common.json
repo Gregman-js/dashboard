@@ -383,7 +383,9 @@
         "version": "Version",
         "status": "Status",
         "up": "Online",
-        "down": "Offline"
+        "down": "Offline",
+        "port": "Port",
+        "ram": "Memory"
     },
     "miniflux": {
         "read": "Read",

@@ -1,6 +1,7 @@
 import dynamic from "next/dynamic";
 
 const components = {
+  craftyserver: dynamic(() => import("./craftyserver/component")),
   adguard: dynamic(() => import("./adguard/component")),
   atsumeru: dynamic(() => import("./atsumeru/component")),
   audiobookshelf: dynamic(() => import("./audiobookshelf/component")),
