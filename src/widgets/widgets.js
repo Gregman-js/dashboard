@@ -130,8 +130,10 @@ import xteve from "./xteve/widget";
 import urbackup from "./urbackup/widget";
 import romm from "./romm/widget";
 import zabbix from "./zabbix/widget";
+import craftyserver from "./craftyserver/widget";
 
 const widgets = {
+  craftyserver,
   adguard,
   argocd,
   atsumeru,
